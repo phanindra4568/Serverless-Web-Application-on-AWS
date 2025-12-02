@@ -1,78 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Save and View Student Data</title>
+    <title>Students App</title>
 </head>
 <body>
-    <h2>Save and View Student Data</h2>
+    <h2>Add Student</h2>
 
-    <label>Student ID:</label>
-    <input type="text" id="studentid"><br><br>
+    <form id="studentForm">
+        Name: <input id="name" /><br><br>
+        Email: <input id="email" /><br><br>
+        <button type="submit">Submit</button>
+    </form>
 
-    <label>Name:</label>
-    <input type="text" id="name"><br><br>
+    <h2>All Students</h2>
+    <div id="students"></div>
 
-    <label>Class:</label>
-    <input type="text" id="class"><br><br>
-
-    <label>Age:</label>
-    <input type="number" id="age"><br><br>
-
-    <button onclick="saveStudent()">Save</button>
-    <button onclick="loadStudents()">View</button>
-
-    <br><br>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Class</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody id="studentTable"></tbody>
-    </table>
-
-    <script>
-        const apiUrl = "https://4ph3doa8bi.execute-api.us-east-2.amazonaws.com/prod";
-
-        async function saveStudent() {
-            const student = {
-                studentid: document.getElementById("studentid").value,
-                name: document.getElementById("name").value,
-                class: document.getElementById("class").value,
-                age: document.getElementById("age").value
-            };
-
-            const response = await fetch(apiUrl, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(student)
-            });
-
-            alert("Student saved successfully!");
-        }
-
-        async function loadStudents() {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            const table = document.getElementById("studentTable");
-            table.innerHTML = "";
-
-            data.forEach(item => {
-                let row = `<tr>
-                    <td>${item.studentid}</td>
-                    <td>${item.name}</td>
-                    <td>${item.class}</td>
-                    <td>${item.age}</td>
-                </tr>`;
-                table.innerHTML += row;
-            });
-        }
-    </script>
-
+    <script src="scripts.js"></script>
 </body>
 </html>
