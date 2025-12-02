@@ -1,47 +1,31 @@
-// Add your API endpoint here
-var API_ENDPOINT = "https://4ph3doa8bi.execute-api.us-east-2.amazonaws.com/prod";
+const API_URL = "https://abcdefgh.execute-api.us-east-1.amazonaws.com/prod/students";
 
-// AJAX POST request to save student data
-document.getElementById("savestudent").onclick = function(){
-    var inputData = {
-        "studentid": $('#studentid').val(),
-        "name": $('#name').val(),
-        "class": $('#class').val(),
-        "age": $('#age').val()
-    };
-    $.ajax({
-        url: API_ENDPOINT,
-        type: 'POST',
-        data:  JSON.stringify(inputData),
-        contentType: 'application/json; charset=utf-8',
-        success: function (response) {
-            document.getElementById("studentSaved").innerHTML = "Student Data Saved!";
-        },
-        error: function () {
-            alert("Error saving student data.");
-        }
+document.getElementById("studentForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+
+    await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ name, email })
     });
+
+    alert("Student added!");
+    loadStudents();
+});
+
+async function loadStudents() {
+    const response = await fetch(API_URL);
+    const students = await response.json();
+
+    let html = "<ul>";
+    students.forEach(s => {
+        html += `<li>${s.name} (${s.email})</li>`;
+    });
+    html += "</ul>";
+
+    document.getElementById("students").innerHTML = html;
 }
 
-// AJAX GET request to retrieve all students
-document.getElementById("getstudents").onclick = function(){  
-    $.ajax({
-        url: API_ENDPOINT,
-        type: 'GET',
-        contentType: 'application/json; charset=utf-8',
-        success: function (response) {
-            $('#studentTable tr').slice(1).remove();
-            jQuery.each(response, function(i, data) {          
-                $("#studentTable").append("<tr> \
-                    <td>" + data['studentid'] + "</td> \
-                    <td>" + data['name'] + "</td> \
-                    <td>" + data['class'] + "</td> \
-                    <td>" + data['age'] + "</td> \
-                    </tr>");
-            });
-        },
-        error: function () {
-            alert("Error retrieving student data.");
-        }
-    });
-}
+loadStudents();
