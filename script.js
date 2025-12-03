@@ -1,31 +1,29 @@
-const API_URL = "https://abcdefgh.execute-api.us-east-1.amazonaws.com/prod/students";
+const insertUrl = "https://xyz123.execute-api.ap-south-1.amazonaws.com/prod/insert";
+const getUrl = "https://xyz123.execute-api.ap-south-1.amazonaws.com/prod/students";
 
 document.getElementById("studentForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
+    const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        course: document.getElementById("course").value
+    };
 
-    await fetch(API_URL, {
+    await fetch(insertUrl, {
         method: "POST",
-        body: JSON.stringify({ name, email })
+        body: JSON.stringify(data)
     });
 
-    alert("Student added!");
     loadStudents();
 });
 
 async function loadStudents() {
-    const response = await fetch(API_URL);
-    const students = await response.json();
+    const res = await fetch(getUrl);
+    const students = await res.json();
 
-    let html = "<ul>";
-    students.forEach(s => {
-        html += `<li>${s.name} (${s.email})</li>`;
-    });
-    html += "</ul>";
-
-    document.getElementById("students").innerHTML = html;
+    document.getElementById("students").innerHTML =
+        students.map(s => `<p>${s.name} - ${s.email} - ${s.course}</p>`).join("");
 }
 
 loadStudents();
