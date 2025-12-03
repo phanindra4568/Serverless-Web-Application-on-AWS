@@ -1,5 +1,5 @@
-const API_INSERT = "https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com/prod/insert";
-const API_GET = "https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com/prod/students";
+const API_INSERT = "https://xocixmhog3.execute-api.us-east-2.amazonaws.com/prod/insert";
+const API_GET = "https://xocixmhog3.execute-api.us-east-2.amazonaws.com/prod/students";
 
 // ------------------ INSERT STUDENT -------------------
 document.getElementById("studentForm").addEventListener("submit", async (e) => {
@@ -25,6 +25,7 @@ document.getElementById("studentForm").addEventListener("submit", async (e) => {
         loadStudents(); // reload list
     } catch (error) {
         console.error("Error:", error);
+        alert("Error adding student. Check console.");
     }
 });
 
@@ -43,6 +44,7 @@ async function loadStudents() {
         document.getElementById("students").innerHTML = html;
     } catch (error) {
         console.error("Error loading students:", error);
+        document.getElementById("students").innerHTML = "Failed to load students.";
     }
 }
 
