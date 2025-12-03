@@ -1,5 +1,5 @@
-const insertUrl = "https://xyz123.execute-api.ap-south-1.amazonaws.com/prod/insert";
-const getUrl = "https://xyz123.execute-api.ap-south-1.amazonaws.com/prod/students";
+const insertUrl = "https://xocixmhog3.execute-api.us-east-2.amazonaws.com/prod/";
+const getUrl = "https://xocixmhog3.execute-api.us-east-2.amazonaws.com/prod/";
 
 document.getElementById("studentForm").addEventListener("submit", async (e) => {
     e.preventDefault();
