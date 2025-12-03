@@ -1,23 +1,28 @@
-import boto3
 import json
+import boto3
 import uuid
 
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table('Students')
+
 def lambda_handler(event, context):
-    body = json.loads(event["body"])
-    
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('Students')
+    body = json.loads(event['body'])
+
+    student_id = str(uuid.uuid4())   # Auto-generated
 
     item = {
-        "studentId": str(uuid.uuid4()),
+        "studentid": student_id,
         "name": body["name"],
-        "email": body["email"]
+        "email": body["email"],
+        "course": body["course"]
     }
 
     table.put_item(Item=item)
 
     return {
-        "statusCode": 200,
-        "headers": {"Access-Control-Allow-Origin": "*"},
-        "body": json.dumps({"message": "Student added successfully!"})
+        'statusCode': 200,
+        'headers': {
+            "Access-Control-Allow-Origin": "*"
+        },
+        'body': json.dumps({"message": "Success", "studentid": student_id})
     }
