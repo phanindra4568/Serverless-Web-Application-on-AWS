@@ -1,4 +1,4 @@
-const API = "https://YOUR_API_URL.execute-api.us-east-2.amazonaws.com/prod";
+const API = "https://3te6sd6tt9.execute-api.us-east-2.amazonaws.com/prod";
 
 async function addStudent() {
     const body = {
