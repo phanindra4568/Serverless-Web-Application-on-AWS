@@ -1,32 +1,33 @@
-const API = "https://3te6sd6tt9.execute-api.us-east-2.amazonaws.com/prod";
+const apiBase = "https://6uau83iv7b.execute-api.us-east-2.amazonaws.com/prod"; // replace with your API URL
 
-async function addStudent() {
-    const body = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        course: document.getElementById("course").value
-    };
+// Add student
+document.getElementById('studentForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const course = document.getElementById('course').value;
 
-    await fetch(API + "/insert", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(body)
+    await fetch(`${apiBase}/insertStudentData`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name, email, course})
     });
 
-    alert("Student Added");
-    getStudents();
-}
+    loadStudents();
+});
 
-async function getStudents() {
-    let res = await fetch(API + "/students");
-    let data = await res.json();
-
-    let html = "";
-    data.forEach(s => {
-        html += `<p>${s.name} - ${s.email} - ${s.course}</p>`;
+// Load students
+async function loadStudents() {
+    const res = await fetch(`${apiBase}/getStudents`);
+    const students = await res.json();
+    const list = document.getElementById('studentList');
+    list.innerHTML = '';
+    students.forEach(s => {
+        const li = document.createElement('li');
+        li.textContent = `${s.name} - ${s.email} - ${s.course}`;
+        list.appendChild(li);
     });
-
-    document.getElementById("students").innerHTML = html;
 }
 
-getStudents();
+// Initial load
+loadStudents();
