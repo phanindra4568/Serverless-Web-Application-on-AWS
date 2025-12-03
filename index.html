@@ -1,32 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Add Student</title>
+    <title>Student App</title>
 </head>
 <body>
 
 <h2>Add Student</h2>
-
-<form id="studentForm">
-    <label>Name</label><br>
-    <input type="text" id="name" required><br><br>
-
-    <label>Email</label><br>
-    <input type="email" id="email" required><br><br>
-
-    <label>Course</label><br>
-    <input type="text" id="course" required><br><br>
-
-    <button type="submit">Submit</button>
-</form>
-
-<hr>
+<input id="name" placeholder="Name"><br>
+<input id="email" placeholder="Email"><br>
+<input id="course" placeholder="Course"><br>
+<button onclick="addStudent()">Submit</button>
 
 <h2>All Students</h2>
 <div id="students"></div>
 
 <script src="scripts.js"></script>
-
 </body>
 </html>
