@@ -4,16 +4,17 @@
     <title>Student App</title>
 </head>
 <body>
+    <h1>Add Student</h1>
+    <form id="studentForm">
+        Name: <input type="text" id="name"><br>
+        Email: <input type="text" id="email"><br>
+        Course: <input type="text" id="course"><br>
+        <button type="submit">Submit</button>
+    </form>
 
-<h2>Add Student</h2>
-<input id="name" placeholder="Name"><br>
-<input id="email" placeholder="Email"><br>
-<input id="course" placeholder="Course"><br>
-<button onclick="addStudent()">Submit</button>
+    <h2>All Students</h2>
+    <ul id="studentList"></ul>
 
-<h2>All Students</h2>
-<div id="students"></div>
-
-<script src="scripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
