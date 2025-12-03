@@ -1,6 +1,7 @@
-const insertUrl = "https://xocixmhog3.execute-api.us-east-2.amazonaws.com/prod/";
-const getUrl = "https://xocixmhog3.execute-api.us-east-2.amazonaws.com/prod/";
+const API_INSERT = "https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com/prod/insert";
+const API_GET = "https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com/prod/students";
 
+// ------------------ INSERT STUDENT -------------------
 document.getElementById("studentForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -10,20 +11,40 @@ document.getElementById("studentForm").addEventListener("submit", async (e) => {
         course: document.getElementById("course").value
     };
 
-    await fetch(insertUrl, {
-        method: "POST",
-        body: JSON.stringify(data)
-    });
+    try {
+        const response = await fetch(API_INSERT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)   // IMPORTANT → sends JSON body
+        });
 
-    loadStudents();
+        const result = await response.json();
+        alert("Student Added Successfully!");
+        console.log(result);
+
+        loadStudents(); // reload list
+    } catch (error) {
+        console.error("Error:", error);
+    }
 });
 
+// ------------------ GET ALL STUDENTS -------------------
 async function loadStudents() {
-    const res = await fetch(getUrl);
-    const students = await res.json();
+    try {
+        const response = await fetch(API_GET);
+        const students = await response.json();
 
-    document.getElementById("students").innerHTML =
-        students.map(s => `<p>${s.name} - ${s.email} - ${s.course}</p>`).join("");
+        let html = "<ul>";
+        students.forEach(s => {
+            html += `<li>${s.name} — ${s.email} — ${s.course}</li>`;
+        });
+        html += "</ul>";
+
+        document.getElementById("students").innerHTML = html;
+    } catch (error) {
+        console.error("Error loading students:", error);
+    }
 }
 
+// load on page open
 loadStudents();
